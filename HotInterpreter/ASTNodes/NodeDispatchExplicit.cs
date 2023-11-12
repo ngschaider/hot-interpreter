@@ -8,11 +8,11 @@ internal class NodeDispatchExplicit : NodeExpression
 {
 
     NodeExpression instance;
-    string targetClass;
+    string? targetClass;
     string methodName;
     NodeExpression[] formals;
 
-    public NodeDispatchExplicit(NodeExpression instance, string targetClass, string methodName, NodeExpression[] formals) {
+    public NodeDispatchExplicit(NodeExpression instance, string? targetClass, string methodName, NodeExpression[] formals) {
         this.instance = instance;
         this.targetClass = targetClass;
         this.methodName = methodName;

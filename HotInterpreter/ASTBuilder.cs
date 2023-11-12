@@ -1,4 +1,6 @@
-﻿using static CoolParser;
+﻿using System.ComponentModel;
+using System.Linq.Expressions;
+using static CoolParser;
 
 internal class ASTBuilder
 {
@@ -14,8 +16,8 @@ internal class ASTBuilder
 
         string name = context.TYPE()[0].Symbol.Text;
         string parent = context.TYPE()[1].Symbol.Text;
-        NodeMethod[] methods = context.feature().Where(feature => feature.method() != null).Select(feature => this.VisitMethod(feature.method())).ToArray();
-        NodeProperty[] properties = context.feature().Where(feature => feature.property() != null).Select(feature => this.VisitProperty(feature.property())).ToArray();
+        NodeMethod[] methods = context.feature().Where(feature => feature.method() != null).Select(feature => VisitMethod(feature.method())).ToArray();
+        NodeProperty[] properties = context.feature().Where(feature => feature.property() != null).Select(feature => VisitProperty(feature.property())).ToArray();
 
         return new NodeClassDefine(name, parent, methods, properties);
     }
@@ -23,7 +25,7 @@ internal class ASTBuilder
     private NodeMethod VisitMethod(MethodContext context)
     {
         string name = context.ID().Symbol.Text;
-        NodeFormal[] formals = context.formal().Select(formal => this.VisitFormal(formal)).ToArray();
+        NodeFormal[] formals = context.formal().Select(VisitFormal).ToArray();
         string returnType = context.TYPE().Symbol.Text;
 
         return new NodeMethod(name, formals, returnType);
@@ -48,15 +50,18 @@ internal class ASTBuilder
         if (context is DispatchExplicitContext dispatchExplicitContext)
         {
             NodeExpression instance = VisitExpression(dispatchExplicitContext.expression(0));
-            string targetClass = dispatchExplicitContext.TYPE().Symbol.Text; // caution: type is optional
+            string? targetClass = dispatchExplicitContext.TYPE()?.Symbol?.Text; // caution: type is optional
             string methodName = dispatchExplicitContext.ID().Symbol.Text;
-            NodeExpression[] formals = dispatchExplicitContext.expression().Skip(1).Select(expr => VisitExpression(expr)).ToArray();
+            NodeExpression[] formals = dispatchExplicitContext.expression().Skip(1).Select(VisitExpression).ToArray();
             
             return new NodeDispatchExplicit(instance, targetClass, methodName, formals);
         }
-        else if (context is DispatchImplicitContext)
+        else if (context is DispatchImplicitContext dispatchImplicitContext)
         {
-            throw new Exception("not implemented");
+            string methodName = dispatchImplicitContext.ID().Symbol.Text;
+            NodeExpression[] formals = dispatchImplicitContext.expression().Skip(1).Select(VisitExpression).ToArray();
+            
+            return new NodeDispatchImplicit(methodName, formals);
         }
         else if (context is IfContext ifContext)
         {
@@ -73,7 +78,7 @@ internal class ASTBuilder
         }
         else if (context is BlockContext blockContext)
         {
-            NodeExpression[] expressions = blockContext.expression().Select(expressionContext => this.VisitExpression(expressionContext)).ToArray();
+            NodeExpression[] expressions = blockContext.expression().Select(VisitExpression).ToArray();
             return new NodeBlock(expressions);
         }
         else if (context is CaseContext caseContext)
@@ -188,7 +193,11 @@ internal class ASTBuilder
             }
         }
         else if(context is LetInContext letInContext) {
-            throw new Exception("not implemented");
+            
+            NodeProperty[] properties = letInContext.property().Select(VisitProperty).ToArray();
+            NodeExpression expression = VisitExpression(letInContext.expression());
+
+            return new NodeLetIn(properties, expression);
         }
         else
         {
