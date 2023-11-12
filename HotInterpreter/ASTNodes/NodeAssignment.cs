@@ -22,10 +22,7 @@ public class NodeAssignment : NodeExpression
 
         csb.AppendLine("Variable: " + variable);
 
-        csb.AppendLine("Expression: ");
-        csb.ChangeIndent(1);
         expression.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
 
         csb.ChangeIndent(-1);
     }

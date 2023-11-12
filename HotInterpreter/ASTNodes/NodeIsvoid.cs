@@ -17,10 +17,9 @@ public class NodeIsvoid : NodeExpression
     {
         csb.AppendLine("Expression - New:");
         csb.ChangeIndent(1);
-        csb.AppendLine("Expression: ");
-        csb.ChangeIndent(1);
+
         expression.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
+
         csb.ChangeIndent(-1);
     }
 

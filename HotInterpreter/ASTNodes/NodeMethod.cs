@@ -27,13 +27,18 @@ public class NodeMethod
         csb.AppendLine("Name: " + name);
         csb.AppendLine("Return Type: " + returnType);
 
-        csb.AppendLine("Formals: ");
-        csb.ChangeIndent(1);
-        foreach (NodeFormal formal in formals)
-        {
-            formal.ToCustomStringBuilder(csb);
+        if(formals.Length > 0) {
+            csb.AppendLine("Formals: ");
+            csb.ChangeIndent(1);
+            foreach (NodeFormal formal in formals)
+            {
+                formal.ToCustomStringBuilder(csb);
+            }
+            csb.ChangeIndent(-1);
+        } else {
+            csb.AppendLine("Formals: null");
         }
-        csb.ChangeIndent(-1);
+        
 
         csb.ChangeIndent(-1);
     }

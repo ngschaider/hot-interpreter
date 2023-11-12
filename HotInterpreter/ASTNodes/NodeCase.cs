@@ -36,15 +36,8 @@ public class NodeCase : NodeExpression
             csb.ChangeIndent(1);
             csb.AppendLine("Branch " + i + ": ");
 
-            csb.ChangeIndent(1);
-            csb.AppendLine("Formal: ");
             branch.Item1.ToCustomStringBuilder(csb);
-            csb.ChangeIndent(-1);
-
-            csb.ChangeIndent(1);
-            csb.AppendLine("Expression: ");
             branch.Item2.ToCustomStringBuilder(csb);
-            csb.ChangeIndent(-1);
 
             csb.ChangeIndent(-1);
         }

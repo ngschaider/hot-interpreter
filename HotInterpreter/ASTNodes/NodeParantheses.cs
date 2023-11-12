@@ -18,10 +18,7 @@ public class NodeParantheses : NodeExpression
         csb.AppendLine("Expression - Parantheses:");
         csb.ChangeIndent(1);
 
-        csb.AppendLine("Expression: ");
-        csb.ChangeIndent(1);
         expression.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
         
         csb.ChangeIndent(-1);
     }

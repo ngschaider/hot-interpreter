@@ -1,22 +1,26 @@
 using System.Formats.Asn1;
+using System.Reflection;
 
 namespace HotTests;
 
 [TestClass]
 public class TestGivenFiles
 {
+    public static string GetTestDisplayName(MethodInfo methodInfo, object[] values) {
+        string path = Path.GetFileName((string) values[0]);
+        bool success = (bool) values[1];
+        return success ? "should succeed: " + path : "should fail: " + path;
+    }
+
     private static IEnumerable<object[]> GetTestDataForCategory(string category) {
         List<object[]> testDatas = new List<object[]>();
 
         string path = "../../../TestCases/" + category;
-        string[] succeedFiles = Directory.GetFiles(path + "/success");
-        foreach (string succeedFile in succeedFiles)
+        foreach (string succeedFile in Directory.GetFiles(path + "/success"))
         {
             testDatas.Add(new object[]{succeedFile, true});
         }
-
-        string[] failFiles = Directory.GetFiles(path + "/fail");
-        foreach (string failFile in failFiles)
+        foreach (string failFile in Directory.GetFiles(path + "/fail"))
         {
             testDatas.Add(new object[]{failFile, false});
         }
@@ -32,7 +36,7 @@ public class TestGivenFiles
         }
         else
         {
-            Assert.ThrowsException<Exception>(() =>
+            Assert.ThrowsException<ParsingException>(() =>
             {
                 Program.BuildAST(filePath);
             });
@@ -44,15 +48,15 @@ public class TestGivenFiles
     static IEnumerable<object[]> SemanticsTestData { get => GetTestDataForCategory("Semantics"); }
 
     [TestMethod]
-    [DynamicData(nameof(AlgorithmTestData))]
+    [DynamicData(nameof(AlgorithmTestData), DynamicDataDisplayName=nameof(GetTestDisplayName))]
     public void TestAlgorithm(string filePath, bool success) => TestSingleTestData(filePath, success);
 
     [TestMethod]
-    [DynamicData(nameof(ParsingTestData))]
+    [DynamicData(nameof(ParsingTestData), DynamicDataDisplayName=nameof(GetTestDisplayName))]
     public void TestParsing(string filePath, bool success) => TestSingleTestData(filePath, success);
 
     [TestMethod]
-    [DynamicData(nameof(SemanticsTestData))]
+    [DynamicData(nameof(SemanticsTestData), DynamicDataDisplayName=nameof(GetTestDisplayName))]
     public void TestSemantics(string filePath, bool success) => TestSingleTestData(filePath, success);
 
 }

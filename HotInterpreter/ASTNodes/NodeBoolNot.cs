@@ -19,10 +19,7 @@ public class NodeBoolNot : NodeExpression
         csb.AppendLine("Expression - Bool Not:");
         csb.ChangeIndent(1);
 
-        csb.AppendLine("Expression: ");
-        csb.ChangeIndent(1);
         expression.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
         
         csb.ChangeIndent(-1);
     }

@@ -41,7 +41,7 @@ internal class ASTBuilder
     private NodeProperty VisitProperty(PropertyContext context)
     {
         NodeFormal formal = VisitFormal(context.formal());
-        NodeExpression expression = VisitExpression(context.expression());
+        NodeExpression? expression = context.expression() != null ? VisitExpression(context.expression()) : null;
         return new NodeProperty(formal, expression);
     }
 
@@ -50,14 +50,11 @@ internal class ASTBuilder
         if (context is DispatchExplicitContext dispatchExplicitContext)
         {
             NodeExpression instance = VisitExpression(dispatchExplicitContext.expression(0));
-            NodeType targetClass = new NodeType(dispatchExplicitContext.TYPE().Symbol.Text); // caution: type is optional
+            NodeType? targetClass = dispatchExplicitContext.TYPE() != null ? new NodeType(dispatchExplicitContext.TYPE().Symbol.Text) : null; // caution: type is optional
             NodeId methodName = new NodeId(dispatchExplicitContext.ID().Symbol.Text);
             NodeExpression[] formals = dispatchExplicitContext.expression().Skip(1).Select(VisitExpression).ToArray();
             
             return new NodeDispatchExplicit(instance, targetClass, methodName, formals);
-        }
-        else if(context is IdContext idContext) {
-            return new NodeId(idContext.ID().Symbol.Text);
         }
         else if (context is DispatchImplicitContext dispatchImplicitContext)
         {
@@ -168,6 +165,9 @@ internal class ASTBuilder
             NodeExpression expression = VisitExpression(paranthesesContext.expression());
             return new NodeParantheses(expression);
         }
+        else if(context is IdContext idContext) {
+            return new NodeId(idContext.ID().Symbol.Text);
+        }
         else if (context is IntContext intContext)
         {
             return new NodeIntConstant(int.Parse(intContext.INT().Symbol.Text));
@@ -191,6 +191,12 @@ internal class ASTBuilder
                 throw new Exception("Error while building NodeBoolConstant");
             }
         }
+        else if(context is AssignmentContext assignmentContext) {
+            string variable = assignmentContext.ID().Symbol.Text;
+            NodeExpression expression = VisitExpression(assignmentContext.expression());
+
+            return new NodeAssignment(variable, expression);
+        }
         else if(context is LetInContext letInContext) {
             
             NodeProperty[] properties = letInContext.property().Select(VisitProperty).ToArray();
@@ -198,15 +204,10 @@ internal class ASTBuilder
 
             return new NodeLetIn(properties, expression);
         }
-        else if(context is AssignmentContext assignmentContext) {
-            string variable = assignmentContext.ID().Symbol.Text;
-            NodeExpression expression = VisitExpression(assignmentContext.expression());
-
-            return new NodeAssignment(variable, expression);
-        }
         else
-        {
-            throw new Exception("Error while building NodeExpression");
+        {   
+            string info = context.GetText();
+            throw new Exception("Error while building NodeExpression: " + info);
         }
     }
 }

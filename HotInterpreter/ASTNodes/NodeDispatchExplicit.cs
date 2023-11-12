@@ -8,11 +8,11 @@ public class NodeDispatchExplicit : NodeExpression
 {
 
     NodeExpression instance;
-    NodeType targetClass;
+    NodeType? targetClass;
     NodeId methodName;
     NodeExpression[] parameters;
 
-    public NodeDispatchExplicit(NodeExpression instance, NodeType targetClass, NodeId methodName, NodeExpression[] parameters) {
+    public NodeDispatchExplicit(NodeExpression instance, NodeType? targetClass, NodeId methodName, NodeExpression[] parameters) {
         this.instance = instance;
         this.targetClass = targetClass;
         this.methodName = methodName;
@@ -24,10 +24,14 @@ public class NodeDispatchExplicit : NodeExpression
         csb.AppendLine("Expression - Dispatch Explicit:");
         csb.ChangeIndent(1);
 
-        csb.AppendLine("Target Class: ");
-        csb.ChangeIndent(1);
-        targetClass.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
+        if(targetClass != null) {
+            csb.AppendLine("Target Class: ");
+            csb.ChangeIndent(1);
+            targetClass.ToCustomStringBuilder(csb);
+            csb.ChangeIndent(-1);
+        } else {
+            csb.AppendLine("Target Class: null");
+        }
         
         csb.AppendLine("Method Name: ");
         csb.ChangeIndent(1);

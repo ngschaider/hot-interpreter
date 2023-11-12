@@ -42,10 +42,16 @@ public static partial class Program {
         if(reader == null) return null;
 
         AntlrInputStream inputStream = new AntlrInputStream(reader);
+
         CoolLexer lexer = new CoolLexer(inputStream);
+        lexer.RemoveErrorListeners();
+        lexer.AddErrorListener(new LexerErrorListener());
+
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
         CoolParser parser = new CoolParser(tokenStream);
+        parser.RemoveErrorListeners();
+        parser.AddErrorListener(new ParserErrorListener());
         CoolParser.ProgramContext program = parser.program();
 
         ASTBuilder builder = new ASTBuilder();

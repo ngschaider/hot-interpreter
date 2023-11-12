@@ -19,10 +19,7 @@ public class NodeNegative : NodeExpression
         csb.AppendLine("Expression - Negative:");
         csb.ChangeIndent(1);
 
-        csb.AppendLine("Expression: ");
-        csb.ChangeIndent(1);
         expression.ToCustomStringBuilder(csb);
-        csb.ChangeIndent(-1);
         
         csb.ChangeIndent(-1);
     }
