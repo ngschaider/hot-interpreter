@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeNew : NodeExpression
+public class NodeNew : NodeExpression
 {
 
     private string type;
@@ -12,5 +12,13 @@ internal class NodeNew : NodeExpression
     public NodeNew(string type)
     {
         this.type = type;
+    }
+
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - New:");
+        csb.ChangeIndent(1);
+        csb.AppendLine("Type: " + type);
+        csb.ChangeIndent(-1);
     }
 }

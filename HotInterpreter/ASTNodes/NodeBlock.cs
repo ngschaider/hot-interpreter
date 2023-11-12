@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeBlock : NodeExpression
+public class NodeBlock : NodeExpression
 {
 
     NodeExpression[] expressions;
@@ -14,5 +14,17 @@ internal class NodeBlock : NodeExpression
         this.expressions = expressions;
     }
 
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - Block:");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Expressions: ");
+        csb.ChangeIndent(1);
+        foreach(NodeExpression expression in expressions) {
+            expression.ToCustomStringBuilder(csb);
+        }
+        csb.ChangeIndent(-1);
+    }
 
 }

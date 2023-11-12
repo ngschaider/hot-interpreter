@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeWhile : NodeExpression
+public class NodeWhile : NodeExpression
 {
 
     private NodeExpression condition;
@@ -14,6 +14,24 @@ internal class NodeWhile : NodeExpression
     {
         this.condition = condition;
         this.body = body;
+    }
+
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - While:");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Condition: ");
+        csb.ChangeIndent(1);
+        condition.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+
+        csb.AppendLine("Body: ");
+        csb.ChangeIndent(1);
+        body.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+        
+        csb.ChangeIndent(-1);
     }
 
 

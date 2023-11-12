@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeProperty
+public class NodeProperty
 {
 
     private NodeFormal formal;
@@ -14,5 +14,21 @@ internal class NodeProperty
     {
         this.formal = formal;
         this.expression = expression;
+    }
+
+    public void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Property: ");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Formal: ");
+        csb.ChangeIndent(1);
+        formal.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+
+        csb.AppendLine("Expression: ");
+        expression.ToCustomStringBuilder(csb);
+
+        csb.ChangeIndent(-1);
     }
 }

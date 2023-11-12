@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeBoolConstant : NodeExpression
+public class NodeBoolConstant : NodeExpression
 {
 
     private bool value;
@@ -14,4 +14,11 @@ internal class NodeBoolConstant : NodeExpression
         this.value = value;
     }
 
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - Bool Constant:");
+        csb.ChangeIndent(1);
+        csb.AppendLine("Value: " + value);
+        csb.ChangeIndent(-1);
+    }
 }

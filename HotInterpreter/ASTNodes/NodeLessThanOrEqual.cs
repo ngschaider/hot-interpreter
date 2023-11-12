@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeLessThanOrEqual : NodeExpression
+public class NodeLessThanOrEqual : NodeExpression
 {
 
     NodeExpression leftSide;
@@ -13,6 +13,22 @@ internal class NodeLessThanOrEqual : NodeExpression
     public NodeLessThanOrEqual(NodeExpression leftSide, NodeExpression rightSide) {
         this.leftSide = leftSide;
         this.rightSide = rightSide;
+    }
+
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - Less Than Or Equal:");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Left Side: ");
+        csb.ChangeIndent(1);
+        leftSide.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+
+        csb.AppendLine("Right Side: ");
+        csb.ChangeIndent(1);
+        rightSide.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
     }
 
 }

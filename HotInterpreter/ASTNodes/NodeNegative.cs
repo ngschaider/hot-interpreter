@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeNegative : NodeExpression
+public class NodeNegative : NodeExpression
 {
 
     private NodeExpression expression;
@@ -12,5 +12,18 @@ internal class NodeNegative : NodeExpression
     public NodeNegative(NodeExpression expression)
     {
         this.expression = expression;
+    }
+
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - Negative:");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Expression: ");
+        csb.ChangeIndent(1);
+        expression.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+        
+        csb.ChangeIndent(-1);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeId : NodeExpression
+public class NodeId : NodeExpression
 {
 
     private string name;
@@ -12,6 +12,14 @@ internal class NodeId : NodeExpression
     public NodeId(string name)
     {
         this.name = name;
+    }
+
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - ID:");
+        csb.ChangeIndent(1);
+        csb.AppendLine("Name: " + name);
+        csb.ChangeIndent(-1);
     }
 
 }

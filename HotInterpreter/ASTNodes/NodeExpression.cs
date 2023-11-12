@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeExpression
+public abstract class NodeExpression : BaseNode
 {
 
-    public NodeExpression() { }
 
 }

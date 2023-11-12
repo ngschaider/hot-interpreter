@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-internal class NodeParantheses : NodeExpression
+public class NodeParantheses : NodeExpression
 {
 
     NodeExpression expression;
@@ -13,4 +13,18 @@ internal class NodeParantheses : NodeExpression
         this.expression = expression;
     }
 
+    public override void ToCustomStringBuilder(CustomStringBuilder csb)
+    {
+        csb.AppendLine("Expression - Parantheses:");
+        csb.ChangeIndent(1);
+
+        csb.AppendLine("Expression: ");
+        csb.ChangeIndent(1);
+        expression.ToCustomStringBuilder(csb);
+        csb.ChangeIndent(-1);
+        
+        csb.ChangeIndent(-1);
+    }
+
 }
+

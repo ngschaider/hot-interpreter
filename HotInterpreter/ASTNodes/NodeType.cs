@@ -1,24 +1,24 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class NodeIntConstant : NodeExpression
+public class NodeType : BaseNode
 {
 
-    private int value;
+    private string name;
 
-    public NodeIntConstant(int value)
+    public NodeType(string name)
     {
-        this.value = value;
+        this.name = name;
     }
 
     public override void ToCustomStringBuilder(CustomStringBuilder csb)
     {
-        csb.AppendLine("Expression - Int Constant:");
+        csb.AppendLine("Expression - Type:");
         csb.ChangeIndent(1);
-        csb.AppendLine("Value: " + value);
+        csb.AppendLine("Name: " + name);
         csb.ChangeIndent(-1);
     }
 
