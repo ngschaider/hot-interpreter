@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 public class NodeProgram : BaseNode
 {
 
-    private NodeClassDefine[] classDefines;
+    public NodeClassDefine[] classDefines;
 
     public NodeProgram(NodeClassDefine[] classDefines)
     {

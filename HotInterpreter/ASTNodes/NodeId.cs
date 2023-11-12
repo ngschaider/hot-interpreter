@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class NodeId : NodeExpression
 {
 
-    private string name;
+    public string name;
 
     public NodeId(string name)
     {

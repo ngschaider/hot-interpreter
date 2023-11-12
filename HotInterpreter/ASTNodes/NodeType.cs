@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class NodeType : BaseNode
 {
 
-    private string name;
+    public string name;
 
     public NodeType(string name)
     {

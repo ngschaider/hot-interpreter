@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 public class NodeClassDefine : BaseNode
 {
 
-    private NodeType name;
-    private NodeType? parent;
+    public NodeType name;
+    public NodeType? parent;
     private NodeMethod[] methods;
     private NodeProperty[] properties;
 
